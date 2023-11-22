@@ -43,10 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         // );
         $_SESSION['user'] = $user;
         go('index.php');
-
     }
-
-
 
 }
 

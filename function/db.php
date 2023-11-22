@@ -8,7 +8,7 @@ function query($sql,$params = [])
 {
     global $conn;
     $stmt =$conn->prepare($sql);
-    return $stmt->execute();
+    return $stmt->execute($params);
 }
 
 function getAll($sql,$params =[])

@@ -1,6 +1,8 @@
 <?php
-execute("insert sql..",['slug','name'])
+// execute("insert sql..",['slug','name']);
 
-getOne("sql..",[]);//object
+// getOne("sql..",[]);//object
 
-getAll(sql,[]);//array
+// getAll(sql,[]);//array
+require 'init.php';
+echo slug('hell o');
