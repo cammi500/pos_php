@@ -47,7 +47,7 @@
               Manage Shop
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="<?php echo $root; ?>category/index.php">
                 <i class="fas fa-list text-warning"> </i>
                 <span class="">Category</span>
               </a>

@@ -5,6 +5,16 @@ if(!isset($_SESSION['user'])){
   setError('Please login first');
   go('login.php');
 }
+//delete
+if(isset($_GET['action'])){
+  $slug = $_GET['slug'];
+  query("delete from category where slug=?",[$slug]);
+  setMsg('Category deleted');
+}
+//query
+$category = getAll('select * from category order by id desc limit 2');
+// print_r($category);
+
 require '../include/header.php';
 
 ?>
@@ -15,7 +25,7 @@ require '../include/header.php';
       <div class="col-12">
         <span class="text-white">
           <h4 class="d-inline text-white">Category</h4>
-          > All
+          
         </span>
       </div>
     </div>
@@ -26,6 +36,8 @@ require '../include/header.php';
     <div class="card">
       <div class="card-body">
         <a href="create.php" class="btn btn-sm btn-warning">Create</a>
+        <?php showMsg();
+        showError() ?>
       <table class="table table-striped text-white mt-2">
         <thead>
             <tr>
@@ -34,21 +46,35 @@ require '../include/header.php';
             </tr>
         </thead>
         <tbody>
-            <tr>
+          <?php 
+          foreach($category as $c){
+            ?>
+              <tr>
                 <td>
-                    Category name
+                    <?php echo $c->name ?>
                 </td>
                 <td>
-                    <a href="http://" class="btn btn-sm btn-danger">
-                        <span class="fa fa-trash"></span>
+                    <a href="<?php echo $root . 'category/edit.php?slug=' .$c->slug ?>" class="btn btn-sm btn-danger">
+                    <span class="fa fa-edit"></span>
                     </a>
-                    <a href="http://" class="btn btn-sm btn-primary">
-                        <span class="fa fa-edit"></span>
+                    <a onclick="return confirm('Sure to delete')" href="<?php echo $root . 'category/index.php?action=delete&slug=' .$c->slug ?>" class="btn btn-sm btn-primary">
+                        <span class="fa fa-trash"></span>
                     </a>
                 </td>
             </tr>
+
+          <?php
+          }
+            ?>
+            
         </tbody>
       </table>
+
+      <div class="text-center">
+        <button type="button" class="btn btn-warning">
+          <span class="fas fa-arrow-down"></span>
+        </button>
+      </div>
       </div>
     </div>
   </div>
