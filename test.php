@@ -5,4 +5,6 @@
 
 // getAll(sql,[]);//array
 require 'init.php';
-echo slug('hell o');
+// echo slug('hell o');
+paginateCategory(2);
+

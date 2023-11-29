@@ -10,9 +10,16 @@ if(!isset($_SESSION['user'])){
 if(isset($_GET['slug'])){
   $slug= $_GET['slug'];
   $category =getOne("select * from category where slug=?",[$slug]);
+  //if a mistake 
+  if(!$category){
+    setError('category not found');
+    go('index.php');
+    die();
+  }
 }else{
   setError('Category not found');
   go('index.php');
+  die();
 }
 //update category
 if($_SERVER['REQUEST_METHOD'] == 'POST'){

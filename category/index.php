@@ -5,6 +5,13 @@ if(!isset($_SESSION['user'])){
   setError('Please login first');
   go('login.php');
 }
+
+//data ajax from down key
+if(isset($_GET['page'])){
+  paginateCategory(2);
+  die();
+}
+
 //delete
 if(isset($_GET['action'])){
   $slug = $_GET['slug'];
@@ -14,6 +21,7 @@ if(isset($_GET['action'])){
 //query
 $category = getAll('select * from category order by id desc limit 2');
 // print_r($category);
+
 
 require '../include/header.php';
 
@@ -25,7 +33,6 @@ require '../include/header.php';
       <div class="col-12">
         <span class="text-white">
           <h4 class="d-inline text-white">Category</h4>
-          
         </span>
       </div>
     </div>
@@ -36,16 +43,17 @@ require '../include/header.php';
     <div class="card">
       <div class="card-body">
         <a href="create.php" class="btn btn-sm btn-warning">Create</a>
-        <?php showMsg();
-        showError() ?>
-      <table class="table table-striped text-white mt-2">
+        <?php 
+        showError();
+        showMsg(); ?>
+      <table class="table table-striped text-white mt-2" id="tblData">
         <thead>
             <tr>
                 <td>name</td>
                 <td>option</td>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tblData">
           <?php 
           foreach($category as $c){
             ?>
@@ -71,7 +79,7 @@ require '../include/header.php';
       </table>
 
       <div class="text-center">
-        <button type="button" class="btn btn-warning">
+        <button type="button" class="btn btn-warning" id="btnFetch">
           <span class="fas fa-arrow-down"></span>
         </button>
       </div>
@@ -84,3 +92,44 @@ require '../include/header.php';
 require '../include/footer.php';
 
 ?>
+
+<script>
+  $(function(){
+    var page =1;
+    var tblData = $('#tblData');
+    var btnFetch =$('#btnFetch');
+    btnFetch.click(function(){
+      //for network
+      page +=1;
+
+      $.get(`index.php?page=${page}`).then(function(data){
+      
+        const d = JSON.parse(data);
+        var htmlString = '';
+
+          if(!d.length){
+            btnFetch.attr('disabled','disabled');
+          }      
+          d.map(function(d){
+          htmlString += `
+          <tr>
+                <td>
+                    ${d.name}
+                </td>
+                <td>
+                    <a href="edit.php?slug=${d.slug}" class="btn btn-sm btn-danger">
+                    <span class="fa fa-edit"></span>
+                    </a>
+                    <a onclick="return confirm('Sure to delete')" href="index.php?slug=${d.slug}" class="btn btn-sm btn-primary">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </td>
+            </tr>
+            
+        `
+      })
+      tblData.append(htmlString);
+        })
+      });
+    });
+</script>
