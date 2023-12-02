@@ -18,3 +18,8 @@ query(
 );
 }
 echo 'successfully';
+
+$sql = query(
+    'delete from product'
+);
+echo 'product seed';
