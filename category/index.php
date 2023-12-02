@@ -46,7 +46,7 @@ require '../include/header.php';
         <?php 
         showError();
         showMsg(); ?>
-      <table class="table table-striped text-white mt-2" id="tblData">
+      <table class="table table-striped text-white mt-2" >
         <thead>
             <tr>
                 <td>name</td>
@@ -101,10 +101,41 @@ require '../include/footer.php';
     btnFetch.click(function(){
       //for network
       page +=1;
-
-      $.get(`index.php?page=${page}`).then(function(data){
+        $.get(`index.php?page=${page}`).then(function(data){
+          // console.log(data);
+          const d = JSON.parse(data);
+          var htmlString = '';
+          //array length false
+          if(!d.length){
+            btnFetch.attr('disabled','disabled');
+          }      
+          d.map(function(d){
+          htmlString += `
+          <tr>
+                <td>
+                    ${d.name}
+                </td>
+                <td>
+                    <a href="edit.php?slug=${d.slug}" class="btn btn-sm btn-danger">
+                    <span class="fa fa-edit"></span>
+                    </a>
+                    <a onclick="return confirm('Sure to delete')" href="index.php?slug=${d.slug}" class="btn btn-sm btn-primary">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </td>
+            </tr>
+            
+        `
+        })
       
-        const d = JSON.parse(data);
+      tblData.append(htmlString);
+        })
+      });
+    });
+</script>
+
+<!-- 
+   const d = JSON.parse(data);
         var htmlString = '';
 
           if(!d.length){
@@ -127,9 +158,4 @@ require '../include/footer.php';
             </tr>
             
         `
-      })
-      tblData.append(htmlString);
-        })
-      });
-    });
-</script>
+ -->
