@@ -75,3 +75,27 @@ function paginateCategory($record_per_page =5){
 
     // echo $page;
 }
+
+//down errow key
+function paginateProduct($record_per_page =5){
+    if(isset($_GET['page'])){
+        $page =$_GET['page'];
+    }else{
+        $page = 2;
+    }
+    if($page<=0){
+        $page =2;
+    }
+
+    //1=0,2
+    //2=2,2
+
+    $start =($page -1) * $record_per_page;
+    $limit ="$start,$record_per_page";
+    $sql ="select * from product order by id desc limit $limit";
+    $data = getAll($sql);
+    echo json_encode($data);
+        // echo $sql;
+
+    // echo $page;
+}

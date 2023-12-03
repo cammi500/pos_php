@@ -1,6 +1,11 @@
 <?php
 
 require '../init.php';
+
+if(!isset($_SESSION['user'])){
+  setError('Please login first');
+  go('login.php');
+}
 $category =getAll("select * from category");
 if($_SERVER["REQUEST_METHOD"] == 'POST'){
 
