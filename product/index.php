@@ -13,6 +13,7 @@ if(isset($_GET['search'])){
     $search = $_GET['search'];
     $product = getAll("select * from product  where name like '%$search%' order by id desc limit 2");
 }else{
+   $search ='';
     $product = getAll('select * from product order by id desc limit 2');
 }
 
@@ -55,10 +56,15 @@ require '../include/header.php';
         <a href="create.php" class="btn btn-sm btn-warning">Create</a>
 
         <form action="" class="mt-2">
-        <input type="text" name="search" class="btn bg-white" >
+        <input type="text" name="search" value="<?php echo $search; ?>" class="btn bg-white" >
         <button type="submit" class="btn btn-primary">
             <span class="fa fa-search"></span>
         </button>
+        <?php
+        if(!empty($search)){
+            echo '<a href="index.php" class="btn btn-danger">Clear</a>';
+        }
+        ?>
         </form>   
              <?php 
         showError();
@@ -141,7 +147,13 @@ require '../include/footer.php';
     btnFetch.click(function(){
       //for network
       page +=1;
-        $.get(`index.php?page=${page}`).then(function(data){
+      var search =<?php echo $search?>;
+      var url = `index.php?page=${page}`
+      if(search) {
+        url += `&search=${search}`;
+      }
+
+        $.get(url).then(function(data){
           // console.log(data);
           const d = JSON.parse(data);
           var htmlString = '';
