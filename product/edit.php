@@ -17,67 +17,56 @@ if(isset($_GET['slug'])and !empty($_GET['slug'])){
         $category_id=$request['category_id'];
         $sale_price=$request['sale_price'];
         $description=$request['description'];
-        die($name.$category_id.$sale_price.$description);
-    }
+        // die($name.$category_id.$sale_price.$description);
+        $file =$_FILES['image'];
+        if(isset($file) and !empty($file['name'])){
+            $file_limit_size = 1024 *1024 *1;
+            $file_size =$file['size'];
+            if($file_limit_size < $file_size){
+              setError("image must be below than 1 mb");
+            }
+            //image uploade
+            $file_name =slug($file['name']);
+            $file_path ="../image/".$file_name;
+            $tmp =$file['tmp_name'];
+            move_uploaded_file($tmp,$file_path);
+            //shi ma delete ma shi ma delete
+            if(file_exists('../image/' .$product->image)){
+                 //delete image
+            unlink("../image/".$product->image);
+            }
+           
+        }else{
+            $file_name =$product->image;
+            //exit
+        }
+        $sql ="
+        update product set name='$name',category_id=$category_id,description='$description',image='$file_name',sale_price=$sale_price
+        where slug ='$slug'
+   ";
+          $result = query($sql);
+          if($result){
+              setMsg("product update successfully");
+              go('edit.php?slug=' . $product->slug);
+              die();
+          }else{
+            setError("product update failed");
+            go('edit.php?slug=' . $product->slug);
+            die();
+          }
+      }
 
     //update
     //image uploaded
 }else{
     setError("wrong slug ");
     go('index.php');
-    die('   ');
+    die();
 }
 // $slug = $_GET['slug'];
 // $product = getOne("select * from product where slug='$slug'");
 print_r($product);
-// if($_SERVER["REQUEST_METHOD"] == 'POST'){
-
-//     // print_r($_REQUEST);
-//     $category_id =$_REQUEST['category_id'];
-//     $slug =$_REQUEST['name'];
-//     $name =$_REQUEST['name'];
-//     $description =$_REQUEST['description'];
-//     $total_quantity =$_REQUEST['total_quantity'];
-//     $sale_price =$_REQUEST['sale_price'];
-//     $buy_price =$_REQUEST['buy_price'];
-//     // $buy_date =$_REQUEST['buy_date'];
-//     // $buy_date =$_REQUEST['buy_date'];
-//     $buy_date = isset($_REQUEST['buy_date']) ;
-
-//     $file =$_FILES['image'];
-//     if(empty($file['name'])){
-//         setError("Please Choose a file");
-//     }else{
-//         $file_limit_size =1024 * 1024 * 1;
-//         $file_size = $file['size'];
-//         if($file_limit_size < $file_size){
-//             setError("Image size must be below 2mb");
-//         }
-//         //image upload
-//         $file_name =slug($file['name']);
-//         $file_path ="../image/" . $file_name;
-//         $tmp =$file['tmp_name'];
-//         move_uploaded_file($tmp,$file_path);
-//         //save to product
-//         query(
-//             'insert into product (category_id,slug,name,description,image,total_quantity,sale_price) values (?,?,?,?,?,?,?)',
-//             [$category_id,$slug,$name,$description,$file_name,$total_quantity,$sale_price]
-//         );
-//         $product_id =$conn->lastInsertId();
-//         //echo $product_id;
-
-//         //save to product buy
-//         query(
-//             'INSERT INTO product_buy (product_id, buy_price, total_quantity, buy_date) VALUES (?, ?, ?, ?)',
-//             [$product_id, $buy_price, $total_quantity, $buy_date]
-//         );
-        
-//         setMsg('product Created successfully');
-//         go('index.php');
-//     }
-// }
 require '../include/header.php';
-
 ?>
 
  <!-- Breadcamp -->
@@ -85,8 +74,8 @@ require '../include/header.php';
     <div class="row mt-3">
       <div class="col-12">
         <span class="text-white">
-          <h4 class="d-inline text-white">Category</h4>
-          > All
+          <h4 class="d-inline text-white">Product</h4>
+          ~ edit
         </span>
       </div>
     </div>
@@ -98,6 +87,7 @@ require '../include/header.php';
       <div class="card-body">
         <a href="index.php" class="btn btn-sm btn-warning">All</a>
         <?php showError();
+        showMsg();
         ?>
             <form action="" class="mt-3 row" method="POST" enctype="multipart/form-data">
                 <div class="col-12">
@@ -151,5 +141,4 @@ require '../include/header.php';
 
 <?php
 require '../include/footer.php';
-
 ?>

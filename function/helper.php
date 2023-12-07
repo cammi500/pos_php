@@ -9,7 +9,8 @@ function setError($message)
 
 function showError()
 {
-    //error shi ma shi 
+    if(isset($_SESSION['errors'])){
+     //error shi ma shi 
     $errors =$_SESSION['errors'];
     $_SESSION['errors'] =[];
     if(count($errors)){
@@ -17,6 +18,8 @@ function showError()
             echo "<div class='alert alert-danger'>$e</div>";
         }
     }
+    }
+   
 }
 function hasError(){
   $errors =$_SESSION['errors'];
@@ -35,14 +38,16 @@ function setMsg($message)
 
 function showMsg()
 {
-    //error shi ma shi toe count lo ma ya so use isset($_SESSION['msg'])
-    $msg =$_SESSION['msg'];
-    $_SESSION['msg'] =[];
-    if(isset($_SESSION['msg']) and count($msg)){
-        foreach($msg as $e){
-            echo "<div class='alert alert-success'>$e</div>";
-        }
-    }
+   if(isset($_SESSION['msg'])){
+     //error shi ma shi toe count lo ma ya so use isset($_SESSION['msg'])
+     $msg =$_SESSION['msg'];
+     $_SESSION['msg'] =[];
+     if(isset($_SESSION['msg']) and count($msg)){
+         foreach($msg as $e){
+             echo "<div class='alert alert-success'>$e</div>";
+         }
+     }
+   }
 }
 
 function go($path){

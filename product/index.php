@@ -107,7 +107,7 @@ require '../include/header.php';
                     </a>
                     |
                      <!-- view -->
-                     <a href="" class="btn btn-sm btn-outline-success">
+                     <a href="<?php echo $root.'product-buy/index.php?product_slug=' .$p->slug; ?>" class="btn btn-sm btn-outline-success">
                         Buy
                     </a>
                      <!-- view -->
