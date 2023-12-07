@@ -94,11 +94,11 @@ require '../include/header.php';
                 </td>
                 <td>
                     <!-- view -->
-                    <a href="" class="btn btn-sm btn-success">
+                    <a href="detail.php?slug=<?php echo $p->slug;?>" class="btn btn-sm btn-success">
                         <span class="fa fa-eye"></span>
                     </a>
                      <!-- edit -->
-                     <a href="" class="btn btn-sm btn-primary">
+                     <a href="edit.php?slug=<?php echo $p->slug;?>" class="btn btn-sm btn-primary">
                         <span class="fa fa-edit"></span>
                     </a>
                      <!-- delete -->
@@ -175,11 +175,11 @@ require '../include/footer.php';
                 </td>
                 <td>
                     <!-- view -->
-                    <a href="" class="btn btn-sm btn-success">
+                    <a href="detail.php?slug=${d.slug}" class="btn btn-sm btn-success">
                         <span class="fa fa-eye"></span>
                     </a>
                      <!-- edit -->
-                     <a href="" class="btn btn-sm btn-primary">
+                     <a href="edit.php?slug=${d.slug}" class="btn btn-sm btn-primary">
                         <span class="fa fa-edit"></span>
                     </a>
                      <!-- delete -->
