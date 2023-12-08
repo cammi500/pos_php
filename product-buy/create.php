@@ -4,18 +4,22 @@ require '../init.php';
 $product_slug =$_GET['product_slug'];
 $product =getOne("select id,total_quantity from product where slug=?",[$product_slug]);
 // var_dump('$product')
-if($_SERVER['REQUEST_METHOD'] =='POST'){
+if($_SERVER['REQUEST_METHOD'] =="POST"){
   $req =$_REQUEST;
   $buy_price =$req['buy_price'];
   $total_quantity =$req['total_quantity'];
   $buy_date=$req['buy_date'];
-  query("insert into product (product_id,buy_price,total_quantity,buy_date) values (?,?,?,?)",[
+
+  query("insert into product_buy (product_id,buy_price,total_quantity,buy_date) values (?,?,?,?)",[
     $product->id,$buy_price,$total_quantity,$buy_date
   ]);
-  $total_qty =$product->total_quantity + $total_quantity;
+
+  // $total_qty = $product->total_quantity + $total_quantity;
+  $total_qty = intval($product->total_quantity) + intval($total_quantity);
+
   query("update product set total_quantity=$total_qty where slug='$product_slug'");
   setMsg("product buy");
-  go('create.php?product_slug='.$product->slug);
+  go('create.php?product_slug='.$product_slug);
   die();
 }
 require '../include/header.php';
@@ -37,14 +41,14 @@ require '../include/header.php';
     <div class="container-fluid pr-5 pl-5 mt-3">
     <div class="card">
       <div class="card-body">
-        <form action="" method="post">
+        <form action="" method="POST">
             <div class="form-group">
                 <label>Enter Buy Price</label>
                 <input type="number" class="form-control" name="buy_price" >
             </div>
             <div class="form-group">
                 <label>Enter Total Quantity</label>
-                <input type="number" class="form-control" name="buy_quantity" >
+                <input type="number" class="form-control" name="total_quantity" >
             </div>
             <div class="form-group">
                 <label>Enter Buy Date</label>
