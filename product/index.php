@@ -5,8 +5,37 @@ if(!isset($_SESSION['user'])){
   setError('Please login first');
   go('login.php');
 }
-// //query
-// $product = getAll('select * from product order by id desc limit 2');
+
+//for sale 
+if(isset($_GET['sale'])and !empty($_GET['sale'])){
+  $slug = $_GET['product_slug'];
+  $product =getOne("select * from product where slug=?",[$slug]);
+  // print_r($product);
+  // die();
+  $date =date('Y-m-d');
+  $sale_price =$product->sale_price;
+  $update_total_qty=$product->total_quantity - 1;
+  $product_id = $product->id;
+
+  query("update product set total_quantity=? where slug=?",[$update_total_qty,$slug]) ;
+  query("insert into product_sell (product_id,sale_price,date) values (?,?,?)"
+  ,[$product_id,$sale_price,$date]);
+  setMsg("sale Created Success");
+  go('index.php');
+  die();
+
+
+
+}
+//delete
+if(isset($_GET['action'])){
+  $slug = $_GET['slug'];
+  query("delete from product where slug=?",[$slug]);
+  setMsg('Product deleted');
+}
+
+
+$product = getAll('select * from product order by id desc limit 2');
 
 //search
 if(isset($_GET['search'])){
@@ -22,17 +51,6 @@ if(isset($_GET['page'])){
     paginateProduct(2);
     die();
   }
-  
-//delete
-// if(isset($_GET['action'])){
-//   $slug = $_GET['slug'];
-//   query("delete from category where slug=?",[$slug]);
-//   setMsg('Category deleted');
-// }
-// //query
-// $category = getAll('select * from category order by id desc limit 2');
-// // print_r($category);
-
 
 require '../include/header.php';
 
@@ -102,7 +120,7 @@ require '../include/header.php';
                         <span class="fa fa-edit"></span>
                     </a>
                      <!-- delete -->
-                     <a href="" class="btn btn-sm btn-danger">
+                     <a onclick="return confirm('Sure to delete')" href="<?php echo $root . 'product/index.php?action=delete&slug=' .$p->slug ?>" class="btn btn-sm btn-danger">
                         <span class="fa fa-trash"></span>
                     </a>
                     |
@@ -111,10 +129,12 @@ require '../include/header.php';
                         Buy
                     </a>
                      <!-- view -->
-                     <a href="" class="btn btn-sm btn-outline-danger">
+                     <a href="index.php?product_slug=<?php echo $p->slug ?>&sale=true" class="btn btn-sm btn-outline-danger">
                         Sale
                     </a>
-
+                    <a href="sale-list.php?product_slug=<?php echo $p->slug ?>&sale=true" class="btn btn-sm btn-outline-danger">
+                        Sale list
+                    </a>
                 </td>
             </tr>
                 <?php
@@ -147,7 +167,8 @@ require '../include/footer.php';
     btnFetch.click(function(){
       //for network
       page +=1;
-      var search =<?php echo $search?>;
+
+      var search =  <?php echo $search; ?>;
       var url = `index.php?page=${page}`
       if(search) {
         url += `&search=${search}`;

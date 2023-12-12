@@ -41,6 +41,10 @@ require '../include/header.php';
     <div class="container-fluid pr-5 pl-5 mt-3">
     <div class="card">
       <div class="card-body">
+        <?php 
+        showError();
+        showMsg();
+        ?>
         <form action="" method="POST">
             <div class="form-group">
                 <label>Enter Buy Price</label>
