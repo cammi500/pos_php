@@ -18,8 +18,7 @@ if(isset($_GET['sale'])and !empty($_GET['sale'])){
   $product_id = $product->id;
 
   query("update product set total_quantity=? where slug=?",[$update_total_qty,$slug]) ;
-  query("insert into product_sell (product_id,sale_price,date) values (?,?,?)"
-  ,[$product_id,$sale_price,$date]);
+  query("insert into product_sell (product_id,sale_price,date) values (?,?,?)" ,[$product_id,$sale_price,$date]);
   setMsg("sale Created Success");
   go('index.php');
   die();
@@ -129,7 +128,7 @@ require '../include/header.php';
                         Buy
                     </a>
                      <!-- view -->
-                     <a href="index.php?product_slug=<?php echo $p->slug ?>&sale=true" class="btn btn-sm btn-outline-danger">
+                     <a href="index.php?product_slug=<?php echo $p->slug; ?>&sale=true" class="btn btn-sm btn-outline-danger">
                         Sale
                     </a>
                     <a href="sale-list.php?product_slug=<?php echo $p->slug ?>&sale=true" class="btn btn-sm btn-outline-danger">

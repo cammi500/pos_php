@@ -32,7 +32,7 @@
       <!-- Collapsible wrapper -->
       <div class="collapse navbar-collapse" id="navbarButtonsExample">
         <div class="d-flex">
-          <a type="button" class="btn btn-warning me-3 text-white">
+          <a type="button" href="<?php echo $root;?>" class="btn btn-warning me-3 text-white">
             <span class="fa fa-home"></span>
             <span class="ml-1">Home</span>
           </a>
