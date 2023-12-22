@@ -36,12 +36,12 @@
             <span class="fa fa-home"></span>
             <span class="ml-1">Home</span>
           </a>
-          <a type="button" class="btn btn-warning me-3 text-white">
+          <a type="button" href="<?php echo $root; ?>shop/index.php" class="btn btn-warning me-3 text-white">
             <span class="fas fa-store-alt"></span>
             <span class="ml-1">Manage Shop</span>
           </a>
           <div class="dropdown">
-            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            <button class="btn btn-warning dropdown-toggle"  type="button" id="dropdownMenuButton" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-shopping-bag" aria-hidden="true"></i>
               Manage Shop
@@ -59,7 +59,7 @@
             </div>
           </div>
           <!-- Sale -->
-          <a type="button" class="btn btn-warning me-3 text-white">
+          <a type="button"  class="btn btn-warning me-3 text-white">
             <span class="fas fa-balance-scale-left"></span>
             <span class="ml-1">Sale</span>
           </a>

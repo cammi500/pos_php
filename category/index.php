@@ -134,28 +134,3 @@ require '../include/footer.php';
     });
 </script>
 
-<!-- 
-   const d = JSON.parse(data);
-        var htmlString = '';
-
-          if(!d.length){
-            btnFetch.attr('disabled','disabled');
-          }      
-          d.map(function(d){
-          htmlString += `
-          <tr>
-                <td>
-                    ${d.name}
-                </td>
-                <td>
-                    <a href="edit.php?slug=${d.slug}" class="btn btn-sm btn-danger">
-                    <span class="fa fa-edit"></span>
-                    </a>
-                    <a onclick="return confirm('Sure to delete')" href="index.php?slug=${d.slug}" class="btn btn-sm btn-primary">
-                        <span class="fa fa-trash"></span>
-                    </a>
-                </td>
-            </tr>
-            
-        `
- -->

@@ -97,13 +97,13 @@ function paginateProduct($record_per_page =5){
 
     $start =($page -1) * $record_per_page;
     $limit ="$start,$record_per_page";
-    $sql ="select * from product ";
+    $sql ="select * from product";
     if(isset($_GET['search']) and !empty($_GET['search'])){
         $search = $_GET['search'];
-        $sql .= " where name like '%search%' ";
+        $sql .= "where name like '%$search%' ";
     }
     //two sql concantinations
-    $sql ="order by id desc limit $limit";
+    $sql .="order by id desc limit $limit";
     $data = getAll($sql);
     echo json_encode($data);
         // echo $sql;

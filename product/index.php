@@ -167,12 +167,13 @@ require '../include/footer.php';
       //for network
       page +=1;
 
-      var search =  <?php echo $search; ?>;
+      var search ="<?php echo $search ?>"
       var url = `index.php?page=${page}`
       if(search) {
         url += `&search=${search}`;
       }
-
+      // console.log(url);
+      // return;
         $.get(url).then(function(data){
           // console.log(data);
           const d = JSON.parse(data);

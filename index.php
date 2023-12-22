@@ -32,7 +32,7 @@ $latest_buy =getAll(
   order by product_buy.id desc limit 5",
   [$date]
 );
-print_r($latest_buy);
+// print_r($latest_buy);
 
 require 'include/header.php';
 // echo 'hello world again'
